@@ -3,7 +3,7 @@ import { useState } from "react"
 import Course from "../Course/Course";
 import PropTypes from 'prop-types';
 
-export default function Courses({handaleSelect, selectedCourseId}) {
+export default function Courses({handaleSelect}) {
     const [courses, setCourses] = useState([]);
     useEffect(()=>{
         fetch('course.json')
@@ -14,7 +14,7 @@ export default function Courses({handaleSelect, selectedCourseId}) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {
-            courses.map((course) => <Course key={course.id} course={course} handaleSelect={handaleSelect} selectedCourseId={selectedCourseId}></Course>)
+            courses.map((course) => <Course key={course.id} course={course} handaleSelect={handaleSelect}></Course>)
         }
     </div>
   )

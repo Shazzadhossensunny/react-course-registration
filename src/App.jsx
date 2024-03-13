@@ -10,24 +10,27 @@ function App() {
   const [price, setPrice] = useState(0);
   const [credit, setCredit] = useState(0);
   const [remainingCredit, setRemainingCredit] = useState(15);
-  const [selectedCourseId, setSelectedCourseId] = useState(null);
 
-  const handaleSelect = (course, id) => {
-    if (selectedCourseId === id) {
-      // If the same course button is clicked again, return without doing anything
-      return toast.warn("you don't repeat buy same course");
-    }
 
-    // Set the selected course ID
-    setSelectedCourseId(id);
+  const handaleSelect = (course) => {
+
+
+  const alreadyExist = cart.find((c) => c.id === course.id);
+  if(!alreadyExist){
+    const newCart = [...cart, course];
+  setCart(newCart);
+
+  }else{
+    return toast.warn("Already Buy This Course");
+  }
+
     //  * condition on credit
     if (remainingCredit - course.credit < 0) {
       toast.warn("Not enough credit!");
       return;
     }
 
-    const newCart = [...cart, course];
-    setCart(newCart);
+
     const newPrice = price + course.price;
     setPrice(newPrice);
     const newCredit = credit + course.credit;
@@ -44,7 +47,7 @@ function App() {
       </h1>
       <div className="flex flex-col lg:flex-row justify-between gap-6">
         <div className="md:w-2/3">
-          <Courses handaleSelect={handaleSelect} selectedCourseId={selectedCourseId}></Courses>
+          <Courses handaleSelect={handaleSelect}></Courses>
         </div>
         <div className="md:w-1/3">
           <Cart
