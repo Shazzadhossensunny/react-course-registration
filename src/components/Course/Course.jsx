@@ -1,8 +1,8 @@
 import { FiDollarSign } from "react-icons/fi";
 import { GoBook } from "react-icons/go";
 import PropTypes from 'prop-types';
-export default function Course({course, handaleSelect}) {
-  const { name, description, photo, price, credit } = course;
+export default function Course({course, handaleSelect, selectedCourseId}) {
+  const { name, description, photo, price, credit, id } = course;
   return (
     <div className="bg-white p-4 rounded-xl">
       <div>
@@ -24,7 +24,7 @@ export default function Course({course, handaleSelect}) {
           </p>
         </div>
       </div>
-      <button onClick={()=>handaleSelect(course)} className="bg-[#2F80ED] border border-[#2F80ED] rounded-lg p-3 w-full text-white text-lg font-semibold mt-6">
+      <button onClick={()=>handaleSelect(course, id, selectedCourseId)} className="bg-[#2F80ED] border border-[#2F80ED] rounded-lg p-3 w-full text-white text-lg font-semibold mt-6">
         Select
       </button>
     </div>

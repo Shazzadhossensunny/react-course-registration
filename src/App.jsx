@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import Cart from "./components/Cart/Cart";
 import Courses from "./components/Courses/Courses";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -10,21 +10,19 @@ function App() {
   const [price, setPrice] = useState(0);
   const [credit, setCredit] = useState(0);
   const [remainingCredit, setRemainingCredit] = useState(15);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
 
-  const handaleSelect = (course) => {
+  const handaleSelect = (course, id) => {
+    if (selectedCourseId === id) {
+      // If the same course button is clicked again, return without doing anything
+      return toast.warn("you don't repeat buy same course");
+    }
+
+    // Set the selected course ID
+    setSelectedCourseId(id);
     //  * condition on credit
     if (remainingCredit - course.credit < 0) {
-      toast.warn("Not enough credit!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
+      toast.warn("Not enough credit!");
       return;
     }
 
@@ -46,7 +44,7 @@ function App() {
       </h1>
       <div className="flex flex-col lg:flex-row justify-between gap-6">
         <div className="md:w-2/3">
-          <Courses handaleSelect={handaleSelect}></Courses>
+          <Courses handaleSelect={handaleSelect} selectedCourseId={selectedCourseId}></Courses>
         </div>
         <div className="md:w-1/3">
           <Cart
